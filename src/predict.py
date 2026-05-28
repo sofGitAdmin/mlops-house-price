@@ -1,15 +1,21 @@
-import joblib
 import pandas as pd
+import mlflow
 
-model = joblib.load("models/model.pkl")
+mlflow.set_tracking_uri("http://mlflow:5000")
 
-def predict_price(surface: float, rooms: int):
+model = mlflow.pyfunc.load_model(
+    "models:/house-price-model@production"
+)
 
-    data = pd.DataFrame([{
-        "surface": surface,
-        "rooms": rooms
-    }])
+def predict_price(surface, rooms):
 
-    prediction = model.predict(data)[0]
+    df = pd.DataFrame([
+        {
+            "surface": surface,
+            "rooms": rooms
+        }
+    ])
 
-    return round(prediction, 2)
+    prediction = model.predict(df)[0]
+
+    return float(prediction)

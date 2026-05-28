@@ -8,9 +8,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 data = pd.DataFrame({
-    "surface": [50, 60, 80, 100, 120, 150],
-    "rooms": [2, 3, 3, 4, 5, 6],
-    "price": [150000, 180000, 240000, 300000, 360000, 450000]
+    "surface": [50,60,80,100,120,150,180,200],
+    "rooms":   [2,3,3,4,5,6,7,8],
+    "price":   [150000,180000,240000,300000,
+                360000,450000,520000,600000]
 })
 
 X = data[["surface", "rooms"]]
@@ -37,7 +38,11 @@ with mlflow.start_run():
     os.makedirs("models", exist_ok=True)
     joblib.dump(model, "models/model.pkl")
 
-    mlflow.sklearn.log_model(model, "model")
+    mlflow.sklearn.log_model(
+    sk_model=model,
+    artifact_path="model",
+    registered_model_name="house-price-model"
+)
 
     print("Model saved")
     print(f"MAE: {mae}")
