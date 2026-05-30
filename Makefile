@@ -14,3 +14,6 @@ predict:
 	curl -X POST "http://localhost:8000/predict" \
 	-H "Content-Type: application/json" \
 	-d '{"surface":90,"rooms":4}'
+
+lint:
+	ruff check .

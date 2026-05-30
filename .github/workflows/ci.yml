@@ -27,6 +27,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
+      - name: Run linting
+        run: |
+          ruff check .          
+
       - name: Run unit tests
         run: |
           PYTHONPATH=. pytest tests/test_api.py -v
