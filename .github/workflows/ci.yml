@@ -30,3 +30,11 @@ jobs:
       - name: Run unit tests
         run: |
           PYTHONPATH=. pytest tests/test_api.py -v
+            - name: Build Docker image
+        run: |
+          docker build -t mlops-house-price-api .
+      
+      - name: Build Docker image
+        run: |
+          docker build -t mlops-house-price-api .          
+
