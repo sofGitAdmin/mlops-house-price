@@ -1,17 +1,17 @@
 services:
-  api:
-    build: .
-    container_name: house-price-api
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-    restart: always
-    environment:
-      MLFLOW_TRACKING_URI: http://mlflow:5000
-      AWS_ACCESS_KEY_ID: admin
-      AWS_SECRET_ACCESS_KEY: password123
-      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+#  api:
+#    build: .
+#    container_name: house-price-api
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - .:/app
+#    restart: always
+#    environment:
+#      MLFLOW_TRACKING_URI: http://mlflow:5000
+#      AWS_ACCESS_KEY_ID: admin
+#      AWS_SECRET_ACCESS_KEY: password123
+#      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
 
   postgres:
     image: postgres:16
@@ -72,8 +72,12 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
+    extra_hosts:
+      - "house-price.local:host-gateway"
+      
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+  
 
   grafana:
     image: grafana/grafana
