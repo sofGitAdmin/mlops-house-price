@@ -1,5 +1,11 @@
 test:
-	pytest
+	PYTHONPATH=. pytest tests/test_api.py -v
+
+test-live:
+	PYTHONPATH=. pytest tests/test_api_live.py -v
+	
+lint:
+	ruff check .
 
 up:
 	docker compose up --build
@@ -15,5 +21,7 @@ predict:
 	-H "Content-Type: application/json" \
 	-d '{"surface":90,"rooms":4}'
 
-lint:
-	ruff check .
+ci:
+	make lint
+	make test
+	docker build -t mlops-house-price-api .

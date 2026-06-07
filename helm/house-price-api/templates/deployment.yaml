@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: house-price-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: house-price-api
+
+  template:
+    metadata:
+      labels:
+        app: house-price-api
+
+    spec:
+      containers:
+        - name: house-price-api
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: "{{ .Values.config.mlflowTrackingUri }}"
+
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "{{ .Values.config.mlflowS3EndpointUrl }}"
+
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: AWS_ACCESS_KEY_ID
+
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: AWS_SECRET_ACCESS_KEY

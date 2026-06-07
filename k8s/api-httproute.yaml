@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: house-price-api-route
+spec:
+  parentRefs:
+    - name: house-price-gateway
+  hostnames:
+    - house-price-gw.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: house-price-api-service
+          port: 8000

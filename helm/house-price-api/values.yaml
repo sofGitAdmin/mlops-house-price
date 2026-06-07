@@ -1,0 +1,28 @@
+replicaCount: 3
+
+image:
+  repository: mlops-house-price-api
+  tag: local
+  pullPolicy: Never
+
+service:
+  port: 8000
+  targetPort: 8000
+
+config:
+  mlflowTrackingUri: "http://host.docker.internal:5000"
+  mlflowS3EndpointUrl: "http://host.docker.internal:9000"
+
+secret:
+  awsAccessKeyId: "admin"
+  awsSecretAccessKey: "password123"
+
+ingress:
+  enabled: true
+  className: traefik
+  host: house-price.local
+
+gateway:
+  enabled: true
+  host: house-price-gw.local
+  className: envoy-gateway-class

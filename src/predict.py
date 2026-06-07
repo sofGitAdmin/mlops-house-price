@@ -1,7 +1,10 @@
 import pandas as pd
 import mlflow
+import os
 
-mlflow.set_tracking_uri("http://mlflow:5000")
+mlflow.set_tracking_uri(
+    os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+)
 
 _model = None
 
